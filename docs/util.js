@@ -1,4 +1,5 @@
 let weight, visible_bias, hidden_bias;
+let ready = false;
 function loadJSON(fileName) {
     return fetch(fileName)
         .then(response => {
@@ -25,7 +26,7 @@ function initialize() {
             visible_bias = b;
             hidden_bias = c;
             console.log(hidden_bias);
-            $('hoge').innerHTML = "Ready";
+            ready = true;
         })
         .catch(error => {
             console.error("Failed to load one or more JSON files:", error);
@@ -35,6 +36,7 @@ function allClear() {
     canvasClear($('canvas'));
     canvasClear($('canvas2'));
     canvasClear($('canvas3'));
+    canvasClear($('canvas_hidden'));
 }
 
 function $(id) {

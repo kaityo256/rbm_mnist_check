@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RBM Reconstruct Sample</title>
     <style type="text/css">
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
         .button {
             font-size: 20px;
             padding: 10px 30px;
@@ -16,7 +24,11 @@
         }
 
         .header {
-            font-size: 30px;
+            font-size: 20px;
+        }
+
+        td {
+            text-align: center;
         }
     </style>
 </head>
@@ -24,29 +36,32 @@
 <body onload="initialize()">
     <script type="text/javascript" src="draw.js"></script>
     <script type="text/javascript" src="util.js"></script>
-    <h1>RBM Reconstruct Sample</h1>
-    <p>制限ボルツマンマシンに数字を入力して再構成させる。</p>
-    <div id="hoge">Test</div>
-    <div><button type="button" onclick="allClear()" class="button">Clear</button></div>
+    <div></div>
     <table>
         <tr class="header">
-            <td>Please draw here</td>
-            <td>Input Image</td>
-            <td>Reconstructed Image</td>
-        </tr>
-        <tr>
-            <td><canvas id='canvas' width=420 height=420 style="background-color:black;"></canvas></td>
-            <td><canvas id='canvas2' width=420 height=420 style="background-color:black;"></canvas></td>
-            <td><canvas id='canvas3' width=420 height=420 style="background-color:black;"></canvas></td>
-        </tr>
-        <tr>
+            <td>Draw here</td>
             <td></td>
-            <td>
-                <div id="result" class="result"></div>
-            </td>
-            <td>
-                <div id="result2" class="result"></div>
-            </td>
+            <td>Input Image</td>
+        </tr>
+        <tr>
+            <td><canvas id='canvas' width=280 height=280 style="background-color:black;"></canvas></td>
+            <td><img src="img/discretization.png" style="width:160px"></td>
+            <td><canvas id='canvas2' width=280 height=280 style="background-color:black;"></canvas></td>
+        </tr>
+        <tr>
+            <td><button type="button" onclick="allClear()" class="button">Clear</button></td>
+            <td></td>
+            <td><img src="img/v2h.png" style="height:140px"></td>
+        </tr>
+        <tr class="header">
+            <td>Reconstructed Image</td>
+            <td></td>
+            <td>Hidden Layer</td>
+        </tr>
+        <td><canvas id='canvas3' width=280 height=280 style="background-color:black;"></canvas></td>
+        <td><img src="img/h2v.png" style="width:140px"></td>
+        <td><canvas id='canvas_hidden' width=240 height=240 style="background-color:black;"></canvas></td>
+        <tr>
         </tr>
     </table>
 </body>
