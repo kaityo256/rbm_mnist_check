@@ -37,7 +37,13 @@ function expected_visible(matrix, vector, bias) {
   return result;
 }
 
-
+function reconstruct() {
+  visible = makedata(canvas, 28);
+  data2canvas(visible, 28, canvas2);
+  e_hidden = expected_hidden(weight, visible, hidden_bias);
+  e_visible = expected_visible(weight, e_hidden, visible_bias);
+  data2canvas(e_visible, 28, canvas3);
+}
 
 function drawSetup(canvas, canvas2, canvas3) {
   canvas.getContext('2d', { willReadFrequently: true });
@@ -55,15 +61,12 @@ function drawSetup(canvas, canvas2, canvas3) {
       x = e.clientX - r.left;
       y = e.clientY - r.top;
       draw(x, y, canvas);
+      reconstruct();
     }
   }
   canvas.onmouseup = function (e) {
     mouseDown = false;
-    visible = makedata(canvas, 28);
-    data2canvas(visible, 28, canvas2);
-    e_hidden = expected_hidden(weight, visible, hidden_bias);
-    e_visible = expected_visible(weight, e_hidden, visible_bias);
-    data2canvas(e_visible, 28, canvas3);
+    reconstruct();
   }
 }
 
