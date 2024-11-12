@@ -1,6 +1,44 @@
 prevX = 0;
 prevY = 0;
 mouseDown = false;
+
+function expected_hidden(matrix, vector, bias) {
+  if (matrix.length !== vector.length) {
+    throw new Error("行列の行数とベクトルの次元が一致しません");
+  }
+
+  let result = Array(matrix[0].length).fill(0);
+  for (let j = 0; j < matrix[0].length; j++) {
+    for (let i = 0; i < matrix.length; i++) {
+      result[j] += matrix[i][j] * vector[i];
+    }
+  }
+  for (let i = 0; i < result.length; i++) {
+    result[i] += bias[i];
+  }
+  result = result.map(x => 1.0 / (1.0 + Math.exp(-x)));
+  return result;
+}
+
+function expected_visible(matrix, vector, bias) {
+  console.log(matrix.length);
+  console.log(matrix[0].length);
+  console.log(vector.length);
+  let result = Array(matrix.length).fill(0);
+  for (let j = 0; j < matrix[0].length; j++) {
+    for (let i = 0; i < matrix.length; i++) {
+      result[i] += matrix[i][j] * vector[j];
+    }
+  }
+  for (let i = 0; i < result.length; i++) {
+    result[i] += bias[i];
+  }
+  result = result.map(x => 1.0 / (1.0 + Math.exp(-x)));
+  return result;
+}
+
+
+
 function drawSetup(canvas, canvas2, canvas3) {
   canvas.getContext('2d', { willReadFrequently: true });
   canvas2.getContext('2d', { willReadFrequently: true });
@@ -21,19 +59,18 @@ function drawSetup(canvas, canvas2, canvas3) {
   }
   canvas.onmouseup = function (e) {
     mouseDown = false;
-    data28 = makedata(canvas, 28);
-    data2canvas(data28, 28, canvas2)
-    data20 = makedata(canvas, 20);
-    //data2canvas(data28_s, 28, canvas3)
-    //check(data28, data28_s);
+    visible = makedata(canvas, 28);
+    data2canvas(visible, 28, canvas2);
+    e_hidden = expected_hidden(weight, visible, hidden_bias);
+    e_visible = expected_visible(weight, e_hidden, visible_bias);
+    data2canvas(e_visible, 28, canvas3);
   }
 }
-
 
 function draw(x, y, canvas) {
   var context = canvas.getContext('2d');
   context.strokeStyle = "white";
-  var w = 40;
+  var w = 30;
   context.lineWidth = w;
   context.lineCap = "round";
   context.lineJoin = "round";

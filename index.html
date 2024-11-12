@@ -49,6 +49,7 @@
         </tr>
     </table>
     <script>
+        let weight, visible_bias, hidden_bias;
         // ファイルを読み込むための共通関数
         function loadJSON(fileName) {
             return fetch(fileName)
@@ -73,19 +74,20 @@
                 loadJSON('c.json')  // c.jsonを読み込む
             ])
                 .then(([w, b, c]) => {
-
-                    console.log("Loaded JSON data:");
-                    console.log("w:", w[0]); // w.jsonの内容
+                    weight = w;
+                    visible_bias = b;
+                    hidden_bias = c;
+                    /*
+                    console.log("w:", w); // w.jsonの内容
                     console.log("b:", b); // b.jsonの内容
                     console.log("c:", c); // c.jsonの内容
+                    */
+                    console.log(hidden_bias);
                     $('hoge').innerHTML = "Ready";
-                    // 必要に応じてw, b, cを使用した処理をここに追加
                 })
                 .catch(error => {
                     console.error("Failed to load one or more JSON files:", error);
                 });
-
-
         }
         function allClear() {
             canvasClear($('canvas'));
