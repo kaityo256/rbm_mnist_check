@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON File Load on Page Load</title>
+    <title>RBM Reconstruct Sample</title>
     <style type="text/css">
         .button {
             font-size: 20px;
@@ -23,15 +23,15 @@
 
 <body onload="initialize()">
     <script type="text/javascript" src="draw.js"></script>
-    <h1>JSON Array Loading Example</h1>
-    <p>Check the console to see the loaded JSON array.</p>
+    <h1>RBM Reconstruct Sample</h1>
+    <p>制限ボルツマンマシンに数字を入力して再構成させる。</p>
     <div id="hoge">Test</div>
     <div><button type="button" onclick="allClear()" class="button">Clear</button></div>
     <table>
         <tr class="header">
             <td>Please draw here</td>
             <td>Input Image</td>
-            <td>Preprocessed Image</td>
+            <td>Reconstructed Image</td>
         </tr>
         <tr>
             <td><canvas id='canvas' width=420 height=420 style="background-color:black;"></canvas></td>
@@ -50,7 +50,6 @@
     </table>
     <script>
         let weight, visible_bias, hidden_bias;
-        // ファイルを読み込むための共通関数
         function loadJSON(fileName) {
             return fetch(fileName)
                 .then(response => {
@@ -61,11 +60,10 @@
                 })
                 .catch(error => {
                     console.error(`Error loading ${fileName}:`, error);
-                    throw error; // エラーを呼び出し元に伝える
+                    throw error;
                 });
         }
 
-        // ページロード時に3つのJSONファイルを読み込む
         function initialize() {
             drawSetup($('canvas'), $('canvas2'), $('canvas3'));
             Promise.all([
@@ -77,11 +75,6 @@
                     weight = w;
                     visible_bias = b;
                     hidden_bias = c;
-                    /*
-                    console.log("w:", w); // w.jsonの内容
-                    console.log("b:", b); // b.jsonの内容
-                    console.log("c:", c); // c.jsonの内容
-                    */
                     console.log(hidden_bias);
                     $('hoge').innerHTML = "Ready";
                 })
