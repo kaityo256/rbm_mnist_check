@@ -10,7 +10,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
             margin: 0;
         }
 
@@ -36,34 +35,35 @@
 <body onload="initialize()">
     <script type="text/javascript" src="draw.js"></script>
     <script type="text/javascript" src="util.js"></script>
-    <div></div>
-    <table>
-        <tr class="header">
-            <td>Draw here</td>
-            <td></td>
-            <td>Input Image</td>
-        </tr>
-        <tr>
-            <td><canvas id='canvas' width=280 height=280 style="background-color:black;"></canvas></td>
-            <td><img src="img/discretization.png" style="width:160px"></td>
-            <td><canvas id='canvas2' width=280 height=280 style="background-color:black;"></canvas></td>
-        </tr>
-        <tr>
-            <td><button type="button" onclick="allClear()" class="button">Clear</button></td>
-            <td></td>
-            <td><img src="img/v2h.png" style="height:140px"></td>
-        </tr>
-        <tr class="header">
-            <td>Reconstructed Image</td>
-            <td></td>
-            <td>Hidden Layer</td>
-        </tr>
-        <td><canvas id='canvas3' width=280 height=280 style="background-color:black;"></canvas></td>
-        <td><img src="img/h2v.png" style="width:140px"></td>
-        <td><canvas id='canvas_hidden' width=240 height=240 style="background-color:black;"></canvas></td>
-        <tr>
-        </tr>
-    </table>
+    <div style="text-align: center;">
+        <table>
+            <tr class="header">
+                <td>Draw here</td>
+                <td></td>
+                <td>Input Image</td>
+            </tr>
+            <tr>
+                <td><canvas id='canvas' width=280 height=280 style="background-color:black;"></canvas></td>
+                <td><img src="img/discretization.png" style="width:160px"></td>
+                <td><canvas id='canvas2' width=280 height=280 style="background-color:black;"></canvas></td>
+            </tr>
+            <tr>
+                <td><button type="button" onclick="allClear()" class="button">Clear</button></td>
+                <td></td>
+                <td><img src="img/v2h.png" style="height:140px"></td>
+            </tr>
+            <tr class="header">
+                <td>Reconstructed Image</td>
+                <td></td>
+                <td>Hidden Layer</td>
+            </tr>
+            <td><canvas id='canvas3' width=280 height=280 style="background-color:black;"></canvas></td>
+            <td><img src="img/h2v.png" style="width:140px"></td>
+            <td><canvas id='canvas_hidden' width=240 height=240 style="background-color:black;"></canvas></td>
+            <tr>
+            </tr>
+        </table>
+    </div>
 </body>
 
 </html>
