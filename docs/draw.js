@@ -35,12 +35,12 @@ function expected_visible(matrix, vector, bias) {
     return result;
 }
 
-function reconstruct(canvas, canvas2, canvas_ouput) {
+function reconstruct(canvas, canvas_input, canvas_output) {
     if (!ready) {
         return;
     }
     visible = makedata(canvas, 28);
-    data2canvas(visible, 28, canvas2);
+    data2canvas(visible, 28, canvas_input);
     e_hidden = expected_hidden(weight, visible, hidden_bias);
     e_visible = expected_visible(weight, e_hidden, visible_bias);
     data2canvas(e_hidden, 8, canvas_hidden);
@@ -48,6 +48,7 @@ function reconstruct(canvas, canvas2, canvas_ouput) {
 }
 
 function drawSetup(canvas_draw, canvas_input, canvas_output, canvas_hidden) {
+    e_hidden = new Float32Array(8 * 8);
     canvas_draw.getContext('2d', { willReadFrequently: true });
     canvas_input.getContext('2d', { willReadFrequently: true });
     canvas_output.getContext('2d', { willReadFrequently: true });
@@ -61,8 +62,8 @@ function drawSetup(canvas_draw, canvas_input, canvas_output, canvas_hidden) {
     canvas_draw.onmousemove = function (e) {
         if (mouseDown) {
             var r = canvas_draw.getBoundingClientRect();
-            x = e.clientX - r.left;
-            y = e.clientY - r.top;
+            var x = e.clientX - r.left;
+            var y = e.clientY - r.top;
             draw(x, y, canvas_draw);
             reconstruct(canvas_draw, canvas_input, canvas_output);
         }
@@ -71,6 +72,27 @@ function drawSetup(canvas_draw, canvas_input, canvas_output, canvas_hidden) {
         mouseDown = false;
         reconstruct(canvas_draw, canvas_input, canvas_output);
     }
+
+    canvas_hidden.onclick = function (e) {
+        var r = canvas_hidden.getBoundingClientRect();
+        var x = e.clientX - r.left;
+        var y = e.clientY - r.top;
+        var h = canvas_hidden.height;
+        var m = h / 8;
+        x = Math.floor(x / m);
+        y = Math.floor(y / m);
+        var index = x + y * 8;
+        var v = e_hidden[index];
+        if (v > 0.5) {
+            e_hidden[index] = 0.0;
+        } else {
+            e_hidden[index] = 1.0;
+        }
+        e_visible = expected_visible(weight, e_hidden, visible_bias);
+        data2canvas(e_hidden, 8, canvas_hidden);
+        data2canvas(e_visible, 28, canvas_output);
+    }
+
 }
 
 function draw(x, y, canvas) {
@@ -140,6 +162,8 @@ function data2canvas(data, size, canvas) {
 }
 
 function canvasClear(canvas) {
+    e_visible.fill(0);
+    e_hidden.fill(0);
     var context = canvas.getContext('2d');
     context.fillStyle = "black";
     context.fillRect(0, 0, canvas.width, canvas.height);

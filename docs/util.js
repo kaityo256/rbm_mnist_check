@@ -25,7 +25,6 @@ function initialize() {
             weight = w;
             visible_bias = b;
             hidden_bias = c;
-            console.log(hidden_bias);
             ready = true;
         })
         .catch(error => {
