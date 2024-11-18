@@ -15,7 +15,7 @@ function loadJSON(fileName) {
 }
 
 function initialize() {
-    drawSetup($('canvas'), $('canvas2'), $('canvas3'));
+    drawSetup($('canvas_draw'), $('canvas_input'), $('canvas_output'), $('canvas_hidden'));
     Promise.all([
         loadJSON('w.json'), // w.jsonを読み込む
         loadJSON('b.json'), // b.jsonを読み込む
@@ -33,9 +33,9 @@ function initialize() {
         });
 }
 function allClear() {
-    canvasClear($('canvas'));
-    canvasClear($('canvas2'));
-    canvasClear($('canvas3'));
+    canvasClear($('canvas_draw'));
+    canvasClear($('canvas_input'));
+    canvasClear($('canvas_output'));
     canvasClear($('canvas_hidden'));
 }
 

@@ -21,9 +21,7 @@ function expected_hidden(matrix, vector, bias) {
 }
 
 function expected_visible(matrix, vector, bias) {
-    console.log(matrix.length);
-    console.log(matrix[0].length);
-    console.log(vector.length);
+
     let result = Array(matrix.length).fill(0);
     for (let j = 0; j < matrix[0].length; j++) {
         for (let i = 0; i < matrix.length; i++) {
@@ -37,7 +35,7 @@ function expected_visible(matrix, vector, bias) {
     return result;
 }
 
-function reconstruct() {
+function reconstruct(canvas, canvas2, canvas_ouput) {
     if (!ready) {
         return;
     }
@@ -46,31 +44,32 @@ function reconstruct() {
     e_hidden = expected_hidden(weight, visible, hidden_bias);
     e_visible = expected_visible(weight, e_hidden, visible_bias);
     data2canvas(e_hidden, 8, canvas_hidden);
-    data2canvas(e_visible, 28, canvas3);
+    data2canvas(e_visible, 28, canvas_output);
 }
 
-function drawSetup(canvas, canvas2, canvas3) {
-    canvas.getContext('2d', { willReadFrequently: true });
-    canvas2.getContext('2d', { willReadFrequently: true });
-    canvas3.getContext('2d', { willReadFrequently: true });
-    canvas.onmousedown = function (e) {
-        var r = canvas.getBoundingClientRect();
+function drawSetup(canvas_draw, canvas_input, canvas_output, canvas_hidden) {
+    canvas_draw.getContext('2d', { willReadFrequently: true });
+    canvas_input.getContext('2d', { willReadFrequently: true });
+    canvas_output.getContext('2d', { willReadFrequently: true });
+    canvas_hidden.getContext('2d', { willReadFrequently: true });
+    canvas_draw.onmousedown = function (e) {
+        var r = canvas_draw.getBoundingClientRect();
         prevX = e.clientX - r.left;
         prevY = e.clientY - r.top;
         mouseDown = true;
     }
-    canvas.onmousemove = function (e) {
+    canvas_draw.onmousemove = function (e) {
         if (mouseDown) {
-            var r = canvas.getBoundingClientRect();
+            var r = canvas_draw.getBoundingClientRect();
             x = e.clientX - r.left;
             y = e.clientY - r.top;
-            draw(x, y, canvas);
-            reconstruct();
+            draw(x, y, canvas_draw);
+            reconstruct(canvas_draw, canvas_input, canvas_output);
         }
     }
-    canvas.onmouseup = function (e) {
+    canvas_draw.onmouseup = function (e) {
         mouseDown = false;
-        reconstruct();
+        reconstruct(canvas_draw, canvas_input, canvas_output);
     }
 }
 
